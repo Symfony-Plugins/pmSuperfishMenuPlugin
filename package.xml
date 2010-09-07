@@ -12,7 +12,7 @@
  </lead>
  <date>2010-09-07</date>
  <version>
-   <release>1.0.0</release>
+   <release>1.0.1</release>
    <api>1.0.0</api>
  </version>
  <stability>
@@ -77,6 +77,20 @@
  </phprelease>
 
  <changelog>
+   <release>
+      <version>
+        <release>1.0.1</release>
+        <api>1.0.0</api>
+      </version>
+      <stability>
+       <release>stable</release>
+       <api>stable</api>
+      </stability>
+      <license uri="http://www.symfony-project.com/license">MIT license</license>
+      <date>2010-09-07</date>
+      <license>MIT</license>
+      <notes>-</notes>
+    </release>
    <release>
       <version>
         <release>1.0.0</release>
