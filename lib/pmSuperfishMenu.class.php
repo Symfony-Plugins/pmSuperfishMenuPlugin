@@ -36,7 +36,7 @@ class pmSuperfishMenu extends pmSuperfishMenuComponent
     
     $this->children = array();
     $this->is_root = false;
-    $this->superfish_js = "jQuery(function(){jQuery('ul.sf-menu').superfish();});"
+    $this->superfish_js = "jQuery(function(){jQuery('ul.sf-menu').superfish();});";
   }
   
   /**
@@ -214,7 +214,7 @@ class pmSuperfishMenu extends pmSuperfishMenuComponent
     $context = sfContext::getInstance();
     $context->getConfiguration()->loadHelpers(array("I18N", "Url"));
     
-    $url = url_for($this->getUrl());
+    $url = $this->getUrl() ? url_for($this->getUrl()) : "";
     $name = __($this->getName());
     $has_credentials = $context->getUser()->hasCredential($this->getCredentials());
     
