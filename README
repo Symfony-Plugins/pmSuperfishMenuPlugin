@@ -1,0 +1,126 @@
+# pmSuperfishMenuPlugin #
+
+The `pmSuperfishMenuPlugin` provides the functionality to create dynamic menus
+using [Superfish](http://users.tpg.com.au/j_birch/plugins/superfish/) (based on
+[jQuery](http://jquery.com/)).
+
+## Installation ##
+
+  * You can install the plugin using subversion:
+
+        [bash]
+        $ svn co http://svn.symfony-project.com/plugins/pmSuperfishMenuPlugin/trunk pmSuperfishMenuPlugin
+
+    And adding the following to config/ProjectConfiguration.class.php:
+
+        [php]
+        $this->enablePlugin("pmSuperfishMenuPlugin");
+    
+  * Or using the plugin:install command:
+
+        [bash]
+        $ ./symfony pl:i pmSuperfishMenuPlugin
+
+In both cases, you must clean your cache and publish-assets
+
+    [bash]
+    $ ./symfony cc
+    $ ./symfony pl:p
+
+## Usage ##
+
+First you must include stylesheets and javascripts. [jQuery](http://jquery.com/) is required, so download it!
+
+    [yaml]
+    # in apps/backend/config/view.yml
+    default:
+      # ...
+      stylesheets:    [main.css, /pmSuperfishMenuPlugin/css/superfish.css]
+
+      javascripts:    [jquery-1.4.2.min.js, /pmSuperfishMenuPlugin/js/hoverIntent.js, /pmSuperfishMenuPlugin/js/superfish.js]
+      
+
+There are two ways of using this plugin:
+
+  * Create the menu manually:
+
+        [php]
+        <?php $root = new pmSuperfishMenu() ?>
+        <?php $root->setRoot() ?>
+    
+        <?php $menu = new pmSuperfishMenu() ?>
+        <?php $menu->setName("People") ?>
+      
+        <?php $menu_item = new pmSuperfishMenuItem() ?>
+        <?php $menu_item->setName("People list")->setUrl("@person") ?>
+        <?php $menu->addChild("person_list", $menu_item) ?>
+      
+        <?php $menu_item = new pmSuperfishMenuItem() ?>
+        <?php $menu_item->setName("New person")->setUrl("@person_new")->setCredentials(array("admin")) ?>
+        <?php $menu->addChild("person_new", $menu_item) ?>
+      
+        <?php $root->addChild("person_list", $menu) ?>
+    
+        <?php $menu = new pmSuperfishMenu() ?>
+        <?php $menu->setName("Cities") ?>
+      
+        <?php $menu_item = new pmSuperfishMenuItem() ?>
+        <?php $menu_item->setName("Cities list")->setUrl("@city") ?>
+        <?php $menu->addChild("city_list", $menu_item) ?>
+      
+        <?php $menu_item = new pmSuperfishMenuItem() ?>
+        <?php $menu_item->setName("Nueva ciudad")->setUrl("@city_new")->setCredentials(array("admin")) ?>
+        <?php $menu->addChild("city_new", $menu_item) ?>
+      
+        <?php $root->addChild("city_menu", $menu) ?>
+    
+        <?php echo $root->render() ?>
+      
+      
+  * Load it from an yaml file:
+  
+    * In apps/backend/config/menu.yml (or elsewhere)
+  
+            [yaml]
+            root:
+              people:
+                name: People
+                menu:
+                  list:
+                    name: People list
+                    url: @person
+                  new:
+                    name: New person
+                    url: @person_new
+                    credentials: [admin]
+              city:
+                name: Cities
+                menu:
+                  list:
+                    name: Cities list
+                    url: @city
+                  new:
+                    name: New city
+                    url: @city_new
+                    credentials: [admin]
+
+    * In apps/backend/templates/layout.php
+
+            [php]
+            <?php pmSuperfishMenu::createFromYaml(sfConfig::get("sf_app_config_dir")."/menu.yml")->render() ?>
+
+## Features ##
+
+  * Fluent interface
+  * Dynamic creation: you can create the menu and add/remove menu items.
+  * Fully customizable: you can change the stylesheet and the superfish 
+    initialization code.
+  
+## NOTES ##
+
+jquery-1.2.6.min.js is bundled because web directory is just the superfish
+library. You can use a higher version of jquery without any problems.
+
+## Bugs / Features request ##
+
+  * Just php bugs or features, I don't mantain the Superfish library.
